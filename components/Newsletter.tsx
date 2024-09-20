@@ -39,7 +39,7 @@ export default function Newsletter() {
                 setIsError(true);
                 setReturnMessage('An error occurred. Please try again.')
             }
-        } catch (error) {
+        } catch {
             setIsError(true);
             setReturnMessage('An error occurred. Please try again.')
         }
