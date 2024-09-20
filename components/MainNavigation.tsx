@@ -20,6 +20,7 @@ export default function MainNavigation() {
 
     //Handling resize of the window
     useEffect(() => {
+
         const handleScroll = () => {
             if (window.scrollY > 0) {
                 setIsScrolled(true)
@@ -27,6 +28,7 @@ export default function MainNavigation() {
                 setIsScrolled(false)
             }
         }
+        handleScroll()
 
         window.addEventListener('scroll', handleScroll)
 
@@ -46,6 +48,7 @@ export default function MainNavigation() {
     };
 
     useEffect(() => {
+        handleResize()
         window.addEventListener('resize', handleResize)
 
         return () => {
@@ -80,14 +83,14 @@ export default function MainNavigation() {
     return (
         <>
             <div
-                className={`w-full border-b-[0.5px] ${!isMenuExpanded ? 'border-b-gray-100' : 'border-b-transparent'} flex items-center z-20 fixed top-0 transition-all duration-300 ${!isScrolled ? 'bg-transparent h-36' : 'bg-[#FFFFFF40] backdrop-blur-2xl h-20 lg:h-24 xl:h-28'}`}>
+                className={`w-full border-b-[0.5px] ${!isMenuExpanded ? 'border-b-gray-100' : 'border-b-transparent'} flex items-center z-20 fixed top-0 transition-all duration-300 ${!isScrolled ? 'bg-transparent h-32' : 'bg-[#FFFFFF40] backdrop-blur-2xl h-20 lg:h-24 xl:h-28'}`}>
                 <Link href={'/'} className={'absolute left-12 lg:left-20 w-20 lg:w-24 xl:w-32'}>
-                    <Image src={Logo} alt={'breally'} className={'w-full h-full'}/>
+                    <Image src={Logo} alt={'breally'} className={'w-full h-full scale-95'} width={400} height={400}/>
                 </Link>
                 {!isMobile && (
                     <>
                         <div
-                            className={'flex gap-14 left-48 lg:left-56 xl:left-80 absolute text-base lg:text-xl xl:text-2xl'}>
+                            className={'flex gap-14 left-48 lg:left-56 xl:left-72 absolute text-base lg:text-xl xl:text-2xl'}>
                             {pages.map((page) => (
                                 <Link key={page.id} href={page.url}>
                                     {page.url.charAt(1).toUpperCase() + page.url.slice(2)}
@@ -95,7 +98,7 @@ export default function MainNavigation() {
                             ))}
                         </div>
                         <button
-                            className={'bg-c-purple h-12 lg:h-14 xl:h-16 px-12 lg:16 xl:px-20 rounded-full absolute right-16 text-base lg:text-xl xl:text-2xl'}>Contact
+                            className={'bg-c-purple h-12 lg:h-14 xl:h-16 px-12 lg:16 xl:px-[70px] rounded-full absolute right-20 text-base lg:text-xl xl:text-2xl'}>Contact
                             us
                         </button>
                     </>
