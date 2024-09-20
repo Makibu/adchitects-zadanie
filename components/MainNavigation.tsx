@@ -132,6 +132,13 @@ export default function MainNavigation() {
                             }}>
                                 <Link href={'/about'}>About</Link>
                             </motion.div>
+                            <motion.button variants={{
+                                hidden: {opacity: 0, x: -20}, visible: {opacity: 1, x: 0},
+                                exit: {opacity: 0, y: -20}
+                            }}
+                                           className={'bg-c-purple h-12 lg:h-14 xl:h-16 px-12 lg:16 xl:px-20 rounded-full text-base lg:text-xl xl:text-2xl'}>Contact
+                                us
+                            </motion.button>
                         </motion.div>
                     </>
                 )}
