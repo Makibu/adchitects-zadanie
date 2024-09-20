@@ -6,10 +6,17 @@ import Image from "next/image"
 import Link from "next/link"
 import {AnimatePresence, motion} from "framer-motion";
 
+interface PageData {
+    url: string;
+    id: string;
+}
+
 export default function MainNavigation() {
     const [isScrolled, setIsScrolled] = useState<boolean>(false)
     const [isMobile, setIsMobile] = useState<boolean>()
     const [isMenuExpanded, setIsMenuExpanded] = useState<boolean>(false)
+
+    const [pages, setPages] = useState<PageData[]>([])
 
     //Handling resize of the window
     useEffect(() => {
@@ -50,6 +57,25 @@ export default function MainNavigation() {
         setIsMenuExpanded(prev => !prev)
     }
 
+    //fetching pages to header
+    useEffect(() => {
+        async function fetchPages() {
+            try {
+                const response = await fetch('https://adchitects-cms-cbbaa5b528fe.herokuapp.com/pages', {
+                    headers: {
+                        'Authorization': `Basic ${btoa(`adchitects:jsrulezzz`)}`
+                    }
+                });
+                const data = await response.json()
+                setPages(data)
+            } catch (error) {
+                console.error('Error fetching pages:', error)
+            }
+        }
+
+        fetchPages()
+    }, [])
+
 
     return (
         <>
@@ -62,10 +88,11 @@ export default function MainNavigation() {
                     <>
                         <div
                             className={'flex gap-14 left-48 lg:left-56 xl:left-80 absolute text-base lg:text-xl xl:text-2xl'}>
-                            <Link href={'/products'}>Products</Link>
-                            <Link href={'/solutions'}>Solutions</Link>
-                            <Link href={'/resources'}>Resources</Link>
-                            <Link href={'/about'}>About</Link>
+                            {pages.map((page) => (
+                                <Link key={page.id} href={page.url}>
+                                    {page.url.charAt(1).toUpperCase() + page.url.slice(2)}
+                                </Link>
+                            ))}
                         </div>
                         <button
                             className={'bg-c-purple h-12 lg:h-14 xl:h-16 px-12 lg:16 xl:px-20 rounded-full absolute right-16 text-base lg:text-xl xl:text-2xl'}>Contact
@@ -107,31 +134,17 @@ export default function MainNavigation() {
                             animate="visible"
                             exit="exit"
                             className={`flex flex-col items-center justify-center gap-12 w-full h-full fixed top-0 left-0 z-10 text-2xl`}>
-                            <motion.div variants={{
-                                hidden: {opacity: 0, x: -20},
-                                visible: {opacity: 1, x: 0},
-                                exit: {opacity: 0, y: -20}
-                            }}>
-                                <Link href={'/products'}>Products</Link>
-                            </motion.div>
-                            <motion.div variants={{
-                                hidden: {opacity: 0, x: 20}, visible: {opacity: 1, x: 0},
-                                exit: {opacity: 0, y: -20}
-                            }}>
-                                <Link href={'/solutions'}>Solutions</Link>
-                            </motion.div>
-                            <motion.div variants={{
-                                hidden: {opacity: 0, x: -20}, visible: {opacity: 1, x: 0},
-                                exit: {opacity: 0, y: -20}
-                            }}>
-                                <Link href={'/resources'}>Resources</Link>
-                            </motion.div>
-                            <motion.div variants={{
-                                hidden: {opacity: 0, x: -20}, visible: {opacity: 1, x: 0},
-                                exit: {opacity: 0, y: -20}
-                            }}>
-                                <Link href={'/about'}>About</Link>
-                            </motion.div>
+                            {pages.map((page) => (
+                                <motion.div key={page.id} variants={{
+                                    hidden: {opacity: 0, x: -20},
+                                    visible: {opacity: 1, x: 0},
+                                    exit: {opacity: 0, y: -20}
+                                }}>
+                                    <Link href={page.url}>
+                                        {page.url.charAt(1).toUpperCase() + page.url.slice(2)}
+                                    </Link>
+                                </motion.div>
+                            ))}
                             <motion.button variants={{
                                 hidden: {opacity: 0, x: -20}, visible: {opacity: 1, x: 0},
                                 exit: {opacity: 0, y: -20}
