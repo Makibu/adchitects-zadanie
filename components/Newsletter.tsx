@@ -46,19 +46,19 @@ export default function Newsletter() {
     }
 
     return (
-        <div className='py-40 flex items-center flex-col px-12'>
-            <span className='text-6xl font-medium text-center'>Sign up for Newsletter</span>
-            <form className='flex flex-col md:flex-row gap-4 my-20 w-full justify-center items-center'
+        <div className='h-[678px] flex items-center flex-col px-12'>
+            <span className='text-[56px] font-medium text-center mt-[170px]'>Sign up for Newsletter</span>
+            <form className='flex flex-col md:flex-row gap-[18px] w-full mt-[87px] justify-center items-center'
                   onSubmit={handleSubmit}>
                 <input
                     type="email"
                     placeholder="Type your email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className={`w-full md:max-w-[550px] outline-none px-8 rounded-full bg-c-white text-c-black text-base lg:text-2xl h-12 lg:h-16`}
+                    className={`w-full md:max-w-[570px] outline-none px-8 rounded-full bg-c-white text-c-black text-base lg:text-2xl h-12 lg:h-16`}
                 />
                 <button
-                    className='bg-c-purple h-12 lg:h-16 max-w-48 md:max-w-[unset] px-12 lg:px-20 rounded-full text-base lg:text-2xl'
+                    className='bg-c-purple h-12 lg:h-16 max-w-48 md:max-w-[unset] px-12 lg:px-[85px] rounded-full text-base lg:text-2xl'
                     type="submit"
                 >
                     Submit
