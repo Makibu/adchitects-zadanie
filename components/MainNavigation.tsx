@@ -13,7 +13,7 @@ interface PageData {
 
 export default function MainNavigation() {
     const [isScrolled, setIsScrolled] = useState<boolean>(false)
-    const [isMobile, setIsMobile] = useState<boolean>()
+    const [isMobile, setIsMobile] = useState<boolean | undefined>(undefined)
     const [isMenuExpanded, setIsMenuExpanded] = useState<boolean>(false)
 
     const [pages, setPages] = useState<PageData[]>([])
@@ -38,14 +38,14 @@ export default function MainNavigation() {
     }, [])
 
     //Checking if screen is mobile width
-    const handleResize = () => {
+    function handleResize() {
         const isMobile = window.innerWidth <= 920
         setIsMobile(isMobile)
 
         if (!isMobile) {
             setIsMenuExpanded(false)
         }
-    };
+    }
 
     useEffect(() => {
         handleResize()
@@ -64,12 +64,12 @@ export default function MainNavigation() {
     useEffect(() => {
         async function fetchPages() {
             try {
-                const response = await fetch('https://adchitects-cms-cbbaa5b528fe.herokuapp.com/pages', {
+                const res: Response = await fetch('https://adchitects-cms-cbbaa5b528fe.herokuapp.com/pages', {
                     headers: {
                         'Authorization': `Basic ${btoa(`adchitects:jsrulezzz`)}`
                     }
                 });
-                const data = await response.json()
+                const data: PageData[] = await res.json()
                 setPages(data)
             } catch (error) {
                 console.error('Error fetching pages:', error)
@@ -91,7 +91,7 @@ export default function MainNavigation() {
                     <>
                         <div
                             className={'flex gap-14 left-48 lg:left-56 xl:left-72 absolute text-base lg:text-xl xl:text-[22px]'}>
-                            {pages.map((page) => (
+                            {pages.map((page: PageData) => (
                                 <Link key={page.id} href={page.url}>
                                     {page.url.charAt(1).toUpperCase() + page.url.slice(2)}
                                 </Link>
@@ -137,7 +137,7 @@ export default function MainNavigation() {
                             animate="visible"
                             exit="exit"
                             className={`flex flex-col items-center justify-center gap-12 w-full h-full fixed top-0 left-0 z-10 text-2xl`}>
-                            {pages.map((page) => (
+                            {pages.map((page: PageData) => (
                                 <motion.div key={page.id} variants={{
                                     hidden: {opacity: 0, x: -20},
                                     visible: {opacity: 1, x: 0},

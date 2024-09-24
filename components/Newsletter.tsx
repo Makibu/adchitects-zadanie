@@ -3,7 +3,7 @@
 import {useState} from 'react'
 
 export default function Newsletter() {
-    const [isError, setIsError] = useState<boolean>()
+    const [isError, setIsError] = useState<boolean | undefined>(undefined)
     const [returnMessage, setReturnMessage] = useState<string>('')
     const [email, setEmail] = useState<string>('');
 
@@ -22,7 +22,7 @@ export default function Newsletter() {
         }
 
         try {
-            const response = await fetch('https://adchitects-cms-cbbaa5b528fe.herokuapp.com/newsletter', {
+            const response: Response = await fetch('https://adchitects-cms-cbbaa5b528fe.herokuapp.com/newsletter', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ export default function Newsletter() {
                     Submit
                 </button>
             </form>
-            <div className={`h-20 w-full text-center ${isError ? 'text-red-400' : 'text-c-lime'} text-xl`}>
+            <div className={`h-20 mt-20 w-full text-center ${isError ? 'text-red-400' : 'text-c-lime'} text-xl`}>
                 {returnMessage}
             </div>
         </div>

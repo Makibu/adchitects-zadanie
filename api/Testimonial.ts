@@ -1,5 +1,15 @@
-export const fetchTestimonialData = async () => {
-    const res = await fetch("https://adchitects-cms-cbbaa5b528fe.herokuapp.com/page/MPz3uDxgKR", {
+interface TestimonialSection {
+    type: 'testimonial';
+    text: string;
+    author: string;
+}
+
+interface ApiResponse {
+    sections: TestimonialSection[]
+}
+
+export const fetchTestimonialData = async (): Promise<{ text: string; author: string }> => {
+    const res: Response = await fetch("https://adchitects-cms-cbbaa5b528fe.herokuapp.com/page/MPz3uDxgKR", {
         headers: {
             'Authorization': 'Basic ' + btoa(`adchitects:jsrulezzz`),
         },
@@ -9,11 +19,11 @@ export const fetchTestimonialData = async () => {
         throw new Error('Failed to fetch testimonial data');
     }
 
-    const data = await res.json();
-    const testimonialSection = data.sections.find((section: any) => section.type === 'testimonial');
+    const data: ApiResponse = await res.json();
+    const testimonialSection = data.sections.find((section: TestimonialSection) => section.type === 'testimonial');
 
     return {
-        description: testimonialSection?.text || '',
+        text: testimonialSection?.text || '',
         author: testimonialSection?.author || '',
     };
 };
